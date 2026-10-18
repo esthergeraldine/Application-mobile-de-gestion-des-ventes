@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.SuccesPage"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="20,8,20,24" Spacing="16">
+            <controls:BackHeader Titre="Succès" RouteRetour="//accueil" />
+
+            <Border WidthRequest="112" HeightRequest="112" HorizontalOptions="Center" Margin="0,8,0,0"
+                    BackgroundColor="{DynamicResource BrandGreen}" StrokeThickness="0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="56" /></Border.StrokeShape>
+                <Image Source="ico_check_w" WidthRequest="64" HeightRequest="64" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+
+            <Label Text="Vente enregistrée !" FontSize="30" FontAttributes="Bold" TextColor="{DynamicResource TextDark}"
+                   HorizontalTextAlignment="Center" Margin="0,6,0,14" />
+
+            <Border BackgroundColor="{DynamicResource MintBg}" StrokeThickness="0" Padding="22,22">
+                <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="30">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Montant encaissé" Style="{StaticResource TitleLabel}" FontSize="22" />
+                        <Label Text="{Binding MontantTexte}" Style="{StaticResource TitleLabel}" FontSize="34" />
+                    </VerticalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Bénéfices" Style="{StaticResource TitleLabel}" FontSize="22" />
+                            <Label Text="{Binding BeneficeTexte}" Style="{StaticResource TitleLabel}" FontSize="34" />
+                        </VerticalStackLayout>
+                        <Border Grid.Column="1" Stroke="{Binding VariationCouleur}" StrokeThickness="1" Padding="12,10"
+                                VerticalOptions="End" BackgroundColor="Transparent">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                            <Label Text="{Binding VariationTexte}" FontSize="26" FontAttributes="Bold" TextColor="{Binding VariationCouleur}" />
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Autre vente" ImageSource="ico_check_w" Style="{StaticResource PrimaryButton}"
+                    Command="{Binding AutreVenteCommand}" Margin="0,8,0,0" />
+            <Button Text="Accueil" ImageSource="ico_home_g" Style="{StaticResource SoftButton}"
+                    Command="{Binding AccueilCommand}" BorderWidth="3" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

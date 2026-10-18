@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.NouvelleVentePage"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="20,8,20,24" Spacing="12">
+            <controls:BackHeader Titre="Nouvelle vente" />
+
+            <controls:VenteFormFields />
+
+            <Border BackgroundColor="{DynamicResource InfoBg}" StrokeThickness="0" Padding="18,14" Margin="0,4,0,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Total" Style="{StaticResource TitleLabel}" FontSize="22" />
+                    <Label Text="{Binding TotalTexte}" Style="{StaticResource TitleLabel}" FontSize="24" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Valider" ImageSource="ico_check_w" Style="{StaticResource PrimaryButton}"
+                    Command="{Binding ValiderCommand}" Margin="0,6,0,0" />
+
+            <Label Text="{Binding StockTexte}" Style="{StaticResource TitleLabel}" FontSize="22" Margin="0,4,0,0" />
+
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14" Margin="0,24,0,0">
+                <Image Source="ico_warning_g" WidthRequest="28" HeightRequest="28" VerticalOptions="Start" />
+                <Label Grid.Column="1" Text="Vérifiez bien les informations avant de valider la vente"
+                       Style="{StaticResource TitleLabel}" FontAttributes="None" FontSize="17" />
+            </Grid>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{DynamicResource BrandGreen}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

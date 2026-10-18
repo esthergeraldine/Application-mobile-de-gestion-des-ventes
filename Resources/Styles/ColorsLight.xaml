@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="VenteJour.Resources.Styles.ColorsLight">
+
+    <!-- Palette thème Light (couleurs de la maquette VenteJour) -->
+    <Color x:Key="PageBg">#F4F8FF</Color>
+    <Color x:Key="CardBg">#FFFFFF</Color>
+    <Color x:Key="MintBg">#E3F4EE</Color>
+    <Color x:Key="InfoBg">#E6F5FC</Color>
+    <Color x:Key="TitleColor">#006652</Color>
+    <Color x:Key="TextDark">#14212B</Color>
+    <Color x:Key="TextMuted">#6B7B78</Color>
+    <Color x:Key="DangerBg">#FFEFEF</Color>
+    <SolidColorBrush x:Key="BorderSoftBrush" Color="#E2E8F0" />
+    <SolidColorBrush x:Key="StrokeBrush" Color="#006652" />
+
+    <!-- Couleurs de marque (identiques dans les deux thèmes) -->
+    <Color x:Key="BrandGreen">#006652</Color>
+    <Color x:Key="BrandOrange">#F28C28</Color>
+    <Color x:Key="MintAccent">#2FCB9C</Color>
+    <Color x:Key="Danger">#D32F2F</Color>
+    <Color x:Key="TileBg">#E3F4EE</Color>
+</ResourceDictionary>

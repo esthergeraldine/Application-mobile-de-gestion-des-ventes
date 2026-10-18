@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.ProfilPage"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="20,8,20,16" Spacing="14">
+                <controls:BackHeader Titre="Profil" RouteRetour="//accueil" />
+
+                <Border WidthRequest="150" HeightRequest="150" HorizontalOptions="Center" Margin="0,6,0,0"
+                        BackgroundColor="{DynamicResource MintBg}" Stroke="{DynamicResource StrokeBrush}" StrokeThickness="1.5">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="75" /></Border.StrokeShape>
+                    <Border WidthRequest="106" HeightRequest="106" BackgroundColor="{DynamicResource BrandGreen}" StrokeThickness="0"
+                            HorizontalOptions="Center" VerticalOptions="Center">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="53" /></Border.StrokeShape>
+                        <Image Source="ico_person_fill_w" WidthRequest="60" HeightRequest="60" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                </Border>
+
+                <VerticalStackLayout Spacing="4" Margin="0,18,0,26">
+                    <Label Text="{Binding Nom}" Style="{StaticResource TitleLabel}" FontSize="28" HorizontalTextAlignment="Center" />
+                    <Label Text="{Binding NomKiosque}" Style="{StaticResource FieldLabel}" FontSize="18" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+
+                <Border Style="{StaticResource OutlineCard}" Padding="10">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                        <Border Style="{StaticResource TileBorder}" WidthRequest="50" HeightRequest="50" BackgroundColor="#F4F8FF">
+                            <Image Source="ico_home_g" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Grid.Column="1" Text="Informations du kiosque" Style="{StaticResource TitleLabel}" FontSize="19" VerticalOptions="Center" />
+                        <Image Grid.Column="2" Source="ico_chevron_right_g" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding InfosKiosqueCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border Style="{StaticResource OutlineCard}" Padding="10" Margin="0,10,0,0">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                        <Border Style="{StaticResource TileBorder}" WidthRequest="50" HeightRequest="50" BackgroundColor="#F4F8FF">
+                            <Image Source="ico_settings_g" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Grid.Column="1" Text="Paramètres" Style="{StaticResource TitleLabel}" FontSize="19" VerticalOptions="Center" />
+                        <Image Grid.Column="2" Source="ico_chevron_right_g" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ParametresCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border Style="{StaticResource OutlineCard}" Padding="10" Margin="0,10,0,0">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                        <Border Style="{StaticResource TileBorder}" WidthRequest="50" HeightRequest="50" BackgroundColor="#F4F8FF">
+                            <Image Source="ico_help_g" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Grid.Column="1" Text="Aide &amp; Support" Style="{StaticResource TitleLabel}" FontSize="19" VerticalOptions="Center" />
+                        <Image Grid.Column="2" Source="ico_chevron_right_g" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AideCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border Style="{StaticResource OutlineCard}" Padding="10" Margin="0,10,0,0">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                        <Border Style="{StaticResource TileBorder}" WidthRequest="50" HeightRequest="50" BackgroundColor="#F4F8FF">
+                            <Image Source="ico_logout_g" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Grid.Column="1" Text="Déconnexion" Style="{StaticResource TitleLabel}" FontSize="19" VerticalOptions="Center" />
+                        <Image Grid.Column="2" Source="ico_chevron_right_g" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding DeconnexionCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:BottomNav Grid.Row="1" Actif="profil" />
+    </Grid>
+</ContentPage>

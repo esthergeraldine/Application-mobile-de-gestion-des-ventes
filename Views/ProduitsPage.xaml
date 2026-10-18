@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.ProduitsPage"
+             x:Name="Root"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+
+        <!-- Liste des produits -->
+        <Grid IsVisible="{Binding PasVide}" RowDefinitions="*,Auto" Padding="16,0,16,8">
+            <Grid RowDefinitions="Auto,Auto,Auto,*" RowSpacing="12">
+                <controls:AppHeader />
+
+                <Border Grid.Row="1" BackgroundColor="{DynamicResource CardBg}" StrokeThickness="0" Padding="14,0" HeightRequest="50">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Image Source="ico_search_k" WidthRequest="24" HeightRequest="24" VerticalOptions="Center" />
+                        <Entry Grid.Column="1" Placeholder="Rechercher un produit ..." Text="{Binding Recherche}"
+                               Style="{StaticResource FieldEntry}" FontSize="17" />
+                    </Grid>
+                </Border>
+
+                <ScrollView Grid.Row="2" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Chips}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border BackgroundColor="{Binding Fond}" StrokeThickness="0" Padding="20,10">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                                    <Label Text="{Binding Libelle}" FontSize="17" FontAttributes="Bold" TextColor="{Binding Texte}" />
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectionnerCommand, Source={x:Reference Root}}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                </ScrollView>
+
+                <ScrollView Grid.Row="3">
+                    <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Produits}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource OutlineCard}" Padding="12">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                        <Border Style="{StaticResource TileBorder}" WidthRequest="58" HeightRequest="58">
+                                            <Image Source="{Binding Icone, Converter={StaticResource IconKey}}"
+                                                   WidthRequest="34" HeightRequest="34" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                            <Label Text="{Binding Nom}" Style="{StaticResource TitleLabel}" FontSize="19" />
+                                            <HorizontalStackLayout Spacing="16">
+                                                <Label Text="{Binding PrixVente, Converter={StaticResource Fcfa}}" Style="{StaticResource TitleLabel}" FontSize="19" />
+                                                <Label Text="{Binding Stock, StringFormat='Stock: {0}'}" FontSize="15" FontAttributes="Bold"
+                                                       TextColor="{DynamicResource TextMuted}" VerticalOptions="End" />
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                        <Image Grid.Column="2" Source="ico_chevron_right_g" WidthRequest="30" HeightRequest="30" VerticalOptions="Center" />
+                                    </Grid>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.ModifierCommand, Source={x:Reference Root}}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Grid>
+
+            <Button Grid.Row="1" Text="Ajouter" ImageSource="ico_plus_w" Style="{StaticResource OrangeButton}"
+                    Command="{Binding AjouterCommand}" Margin="0,8,0,0" />
+        </Grid>
+
+        <!-- État vide : aucun produit -->
+        <Grid IsVisible="{Binding EstVide}" RowDefinitions="Auto,*,Auto" Padding="16,0,16,16">
+            <controls:BackHeader Titre="Produits" RouteRetour="//accueil" />
+
+            <VerticalStackLayout Grid.Row="1" Spacing="22" VerticalOptions="Center">
+                <Border WidthRequest="150" HeightRequest="150" HorizontalOptions="Center"
+                        BackgroundColor="{DynamicResource MintBg}" Stroke="{DynamicResource StrokeBrush}" StrokeThickness="1.5">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="75" /></Border.StrokeShape>
+                    <Border WidthRequest="100" HeightRequest="100" BackgroundColor="{DynamicResource InfoBg}" StrokeThickness="0"
+                            HorizontalOptions="Center" VerticalOptions="Center">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="50" /></Border.StrokeShape>
+                        <Image Source="ico_box_g" WidthRequest="56" HeightRequest="56" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                </Border>
+                <Label Text="Aucun produit pour le moment" Style="{StaticResource TitleLabel}" FontSize="22"
+                       HorizontalTextAlignment="Center" Margin="0,40,0,0" />
+                <Label Text="Ajoutez vos premiers produits pour pouvoir enregistrer vos ventes"
+                       Style="{StaticResource FieldLabel}" FontSize="18" HorizontalTextAlignment="Center" Margin="20,0" />
+            </VerticalStackLayout>
+
+            <Button Grid.Row="2" Text="Ajouter" ImageSource="ico_plus_w" Style="{StaticResource PrimaryButton}"
+                    Command="{Binding AjouterCommand}" />
+        </Grid>
+
+        <controls:BottomNav Grid.Row="1" Actif="produits" />
+    </Grid>
+</ContentPage>

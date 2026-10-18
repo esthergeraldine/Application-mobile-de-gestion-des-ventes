@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.VentePertePage"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="20,8,20,24" Spacing="12">
+            <controls:BackHeader Titre="Vente à perte" />
+
+            <controls:VenteFormFields />
+
+            <!-- Résultat : perte (rouge) ou bénéfice (menthe) -->
+            <Border BackgroundColor="{Binding FondResultat}" StrokeThickness="0" Padding="14,12" Margin="0,4,0,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="{Binding LibelleResultat}" FontSize="22" FontAttributes="Bold" TextColor="{Binding CouleurResultat}" />
+                    <Label Text="{Binding ResultatTexte}" FontSize="22" FontAttributes="Bold" TextColor="{Binding CouleurResultat}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" IsVisible="{Binding AfficherConfirmation}" Margin="0,4,0,0">
+                <CheckBox IsChecked="{Binding Confirme}" Color="{DynamicResource BrandGreen}" VerticalOptions="Start" />
+                <Label Grid.Column="1" Text="Je confirme que je réalise cette vente à perte"
+                       Style="{StaticResource TitleLabel}" FontSize="17" VerticalOptions="Center" />
+            </Grid>
+
+            <Button Text="{Binding BoutonTexte}" ImageSource="ico_check_w" Style="{StaticResource PrimaryButton}"
+                    Command="{Binding ActionPrincipaleCommand}" />
+
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14" IsVisible="{Binding AfficherConfirmation}">
+                <Image Source="ico_warning_g" WidthRequest="28" HeightRequest="28" VerticalOptions="Start" />
+                <Label Grid.Column="1" Text="Cette action est définitive pour cette vente."
+                       Style="{StaticResource TitleLabel}" FontAttributes="None" FontSize="17" />
+            </Grid>
+
+            <Border BackgroundColor="{DynamicResource DangerBg}" StrokeThickness="0" Padding="16,14" Margin="0,8,0,0"
+                    IsVisible="{Binding AfficherConfirmation}">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                    <Image Source="ico_warning_r" WidthRequest="48" HeightRequest="48" VerticalOptions="Center" />
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                        <Label Text="Attention !" FontSize="26" FontAttributes="Bold" TextColor="{DynamicResource Danger}" />
+                        <Label Text="Cette action est réalisée à perte" FontSize="18" TextColor="{DynamicResource Danger}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{DynamicResource BrandGreen}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

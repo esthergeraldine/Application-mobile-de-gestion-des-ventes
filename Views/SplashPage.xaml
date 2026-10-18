@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.SplashPage"
+             BackgroundColor="#E3F4EE"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="3*,Auto,2*,Auto,3*" Padding="24">
+        <Image Grid.Row="1" Source="logo" WidthRequest="300" HorizontalOptions="Center" Aspect="AspectFit" />
+        <Label Grid.Row="3" Text="Vendez mieux,&#10;gagnez plus !" FontSize="24" FontAttributes="Bold"
+               TextColor="#14212B" HorizontalTextAlignment="Center" />
+    </Grid>
+</ContentPage>

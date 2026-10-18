@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.AidePage"
+             x:Name="Root"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="20,8,20,24" Spacing="14">
+                <controls:BackHeader Titre="Aide et support" />
+
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14" Margin="0,4,0,0">
+                    <Image Source="ico_headset_g" WidthRequest="50" HeightRequest="50" VerticalOptions="Center" />
+                    <Label Grid.Column="1" Text="Comment pouvons-nous vous aider ?" Style="{StaticResource TitleLabel}"
+                           FontSize="24" VerticalOptions="Center" />
+                </Grid>
+
+                <!-- Recherche -->
+                <Border BackgroundColor="{DynamicResource InfoBg}" Stroke="{DynamicResource BorderSoftBrush}" StrokeThickness="1"
+                        Padding="12,0" HeightRequest="52">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                        <Image Source="ico_search_k" WidthRequest="24" HeightRequest="24" VerticalOptions="Center" />
+                        <Entry Grid.Column="1" Placeholder="Rechercher une aide..." Text="{Binding Recherche}"
+                               ReturnType="Search" Style="{StaticResource FieldEntry}" />
+                        <Grid Grid.Column="2" WidthRequest="44" HeightRequest="44" VerticalOptions="Center"
+                              IsVisible="{Binding EstEnRecherche}">
+                            <Image Source="ico_close_k" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding EffacerRechercheCommand}" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Label Text="{Binding MessageErreur}" IsVisible="{Binding ADesErreur}" Style="{StaticResource ErrorLabel}" />
+
+                <!-- Mode normal : catégories + contact -->
+                <VerticalStackLayout Spacing="12" IsVisible="{Binding PasEnRecherche}">
+                    <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Categories}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border BackgroundColor="{DynamicResource InfoBg}" Stroke="{DynamicResource BorderSoftBrush}"
+                                        StrokeThickness="1" Padding="14,14">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="16" />
+                                    </Border.StrokeShape>
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                        <Border WidthRequest="56" HeightRequest="56" BackgroundColor="{DynamicResource BrandGreen}"
+                                                StrokeThickness="0" VerticalOptions="Center">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="28" />
+                                            </Border.StrokeShape>
+                                            <Image Source="{Binding Icone, Converter={StaticResource IconKeyBlanc}}" WidthRequest="28" HeightRequest="28"
+                                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                            <Label Text="{Binding Titre}" Style="{StaticResource TitleLabel}" FontSize="18" />
+                                            <Label Text="{Binding Description}" Style="{StaticResource MutedLabel}" FontSize="14" />
+                                        </VerticalStackLayout>
+                                        <Image Grid.Column="2" Source="ico_chevron_right_g" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                                    </Grid>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.OuvrirCategorieCommand, Source={x:Reference Root}}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+
+                    <Label Text="Nous contacter" Style="{StaticResource TitleLabel}" FontSize="20" Margin="0,10,0,0" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <Border BackgroundColor="{DynamicResource InfoBg}" Stroke="{DynamicResource BorderSoftBrush}" StrokeThickness="1" Padding="12,14">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="6">
+                                <Image Source="ico_headset_g" WidthRequest="30" HeightRequest="30" HorizontalOptions="Start" />
+                                <Label Grid.Row="1" Text="Contacter le support" Style="{StaticResource TitleLabel}" FontSize="14" FontAttributes="None" />
+                                <Image Grid.RowSpan="2" Grid.Column="1" Source="ico_chevron_right_g" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
+                            </Grid>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ContacterCommand}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border Grid.Column="1" BackgroundColor="{DynamicResource InfoBg}" Stroke="{DynamicResource BorderSoftBrush}" StrokeThickness="1" Padding="12,14">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="14" />
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="6">
+                                <Image Source="ico_warning_g" WidthRequest="30" HeightRequest="30" HorizontalOptions="Start" />
+                                <Label Grid.Row="1" Text="Signaler un problème" Style="{StaticResource TitleLabel}" FontSize="14" FontAttributes="None" />
+                                <Image Grid.RowSpan="2" Grid.Column="1" Source="ico_chevron_right_g" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
+                            </Grid>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SignalerCommand}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </Grid>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8" Margin="0,2,0,0">
+                        <Image Source="ico_info_k" WidthRequest="18" HeightRequest="18" VerticalOptions="Start" />
+                        <Label Grid.Column="1" Text="{Binding NoteSupport}" Style="{StaticResource MutedLabel}" FontSize="13" />
+                    </Grid>
+                </VerticalStackLayout>
+
+                <!-- Mode recherche -->
+                <VerticalStackLayout Spacing="10" IsVisible="{Binding EstEnRecherche}">
+                    <Label Text="{Binding ResumeRecherche}" IsVisible="{Binding ResumeRecherche, Converter={StaticResource NotEmpty}}"
+                           Style="{StaticResource MutedLabel}" />
+                    <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding Resultats}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource CardBorder}" Padding="14,12">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                    <VerticalStackLayout Spacing="3">
+                                        <Label Text="{Binding Titre}" Style="{StaticResource TitleLabel}" FontSize="17" />
+                                        <Label Text="{Binding Resume}" Style="{StaticResource MutedLabel}" FontSize="14" />
+                                        <Label Text="{Binding CategorieTitre}" TextColor="{DynamicResource MintAccent}" FontSize="12" FontAttributes="Bold" />
+                                    </VerticalStackLayout>
+                                    <Image Grid.Column="1" Source="ico_chevron_right_g" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                                </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.OuvrirArticleCommand, Source={x:Reference Root}}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="6" IsVisible="{Binding AucunResultat}" Margin="0,24,0,0">
+                        <Label Text="Aucun résultat" Style="{StaticResource TitleLabel}" FontSize="18" HorizontalTextAlignment="Center" />
+                        <Label Text="Essayez d'autres mots ou parcourez les catégories d'aide." Style="{StaticResource MutedLabel}"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:BottomNav Grid.Row="1" Actif="profil" />
+    </Grid>
+</ContentPage>

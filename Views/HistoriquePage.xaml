@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.HistoriquePage"
+             x:Name="Root"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="16,0,16,16" Spacing="14">
+                <controls:AppHeader />
+
+                <HorizontalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Chips}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{Binding Fond}" StrokeThickness="0" Padding="22,12">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                                <Label Text="{Binding Libelle}" FontSize="18" FontAttributes="Bold" TextColor="{Binding Texte}" />
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.SelectionnerCommand, Source={x:Reference Root}}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+
+                <!-- Total des ventes -->
+                <Border BackgroundColor="{DynamicResource MintBg}" StrokeThickness="0" Padding="22,18">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Total des ventes" Style="{StaticResource TitleLabel}" FontSize="22" />
+                            <Label Text="{Binding TotalTexte}" Style="{StaticResource TitleLabel}" FontSize="32" />
+                        </VerticalStackLayout>
+                        <Border Grid.Column="1" Stroke="{Binding VariationCouleur}" StrokeThickness="1" Padding="14,12"
+                                VerticalOptions="Center" IsVisible="{Binding AVariation}" BackgroundColor="Transparent">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                            <Label Text="{Binding VariationTexte}" FontSize="30" FontAttributes="Bold" TextColor="{Binding VariationCouleur}" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Label Text="Aucune vente sur cette période." Style="{StaticResource MutedLabel}" FontSize="16"
+                       HorizontalTextAlignment="Center" IsVisible="{Binding EstVide}" Margin="0,16" />
+
+                <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Ventes}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{DynamicResource CardBg}" StrokeThickness="0" Padding="12,14">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                    <Border Style="{StaticResource TileBorder}" WidthRequest="58" HeightRequest="58">
+                                        <Image Source="{Binding Icone, Converter={StaticResource IconKey}}"
+                                               WidthRequest="34" HeightRequest="34" HorizontalOptions="Center" VerticalOptions="Center" />
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                        <Label Text="{Binding Libelle}" Style="{StaticResource TitleLabel}" FontSize="20" />
+                                        <HorizontalStackLayout Spacing="22">
+                                            <Label Text="{Binding Total, Converter={StaticResource Fcfa}}" Style="{StaticResource TitleLabel}" FontSize="20" />
+                                            <Label Text="{Binding Heure}" FontSize="15" FontAttributes="Bold"
+                                                   TextColor="{DynamicResource TextMuted}" VerticalOptions="End" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                    <Image Grid.Column="2" Source="ico_chevron_right_g" WidthRequest="30" HeightRequest="30" VerticalOptions="Center" />
+                                </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.OuvrirCommand, Source={x:Reference Root}}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:BottomNav Grid.Row="1" Actif="historique" />
+    </Grid>
+</ContentPage>

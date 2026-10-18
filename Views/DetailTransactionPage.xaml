@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.DetailTransactionPage"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="20,8,20,16" Spacing="12">
+                <controls:BackHeader Titre="Détail de la transaction" />
+
+                <!-- Numéro, date, statut -->
+                <Border Style="{StaticResource CardBorder}" Padding="14,16">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                            <Label Text="{Binding Vente.Id, StringFormat='#{0}'}" Style="{StaticResource TitleLabel}" FontSize="26" />
+                            <Label Text="{Binding DateTexte}" FontSize="17" FontAttributes="Bold" TextColor="{DynamicResource TextMuted}" />
+                        </VerticalStackLayout>
+                        <Border Grid.Column="1" BackgroundColor="{DynamicResource MintBg}" Stroke="{DynamicResource StrokeBrush}"
+                                StrokeThickness="1" Padding="14,8" VerticalOptions="Center">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
+                            <Label Text="{Binding Vente.Statut}" Style="{StaticResource TitleLabel}" FontSize="22" TextColor="{Binding StatutCouleur}" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Lignes de la vente -->
+                <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Vente.Lignes}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource CardBorder}" Padding="16">
+                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="18">
+                                    <Border Style="{StaticResource TileBorder}" WidthRequest="76" HeightRequest="76">
+                                        <Image Source="{Binding Icone, Converter={StaticResource IconKey}}"
+                                               WidthRequest="40" HeightRequest="40" HorizontalOptions="Center" VerticalOptions="Center" />
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
+                                        <Label Text="{Binding Libelle}" Style="{StaticResource TitleLabel}" FontSize="19" />
+                                        <Label Text="{Binding Total, Converter={StaticResource Fcfa}}" Style="{StaticResource TitleLabel}" FontSize="26" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+                <Border Style="{StaticResource CardBorder}" Padding="16,18">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Montant total" Style="{StaticResource FieldLabel}" FontSize="18" />
+                        <Label Grid.Column="1" Text="{Binding Vente.Total, Converter={StaticResource Fcfa}}" Style="{StaticResource TitleLabel}" FontSize="18" />
+                    </Grid>
+                </Border>
+                <Border Style="{StaticResource CardBorder}" Padding="16,18">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Coût d'achat" Style="{StaticResource FieldLabel}" FontSize="18" />
+                        <Label Grid.Column="1" Text="{Binding Vente.Cout, Converter={StaticResource Fcfa}}" Style="{StaticResource TitleLabel}" FontSize="18" />
+                    </Grid>
+                </Border>
+                <Border Style="{StaticResource CardBorder}" Padding="16,18">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Marge" Style="{StaticResource FieldLabel}" FontSize="18" />
+                        <Label Grid.Column="1" Text="{Binding MargeTexte}" FontSize="18" FontAttributes="Bold" TextColor="{DynamicResource MintAccent}" />
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource CardBorder}" Padding="16,14" Margin="0,8,0,0">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Mode de règlement" Style="{StaticResource TitleLabel}" FontSize="19" />
+                        <Label Text="{Binding Vente.ModeReglement}" Style="{StaticResource TitleLabel}" FontSize="24" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="{Binding MessageErreur}" IsVisible="{Binding ADesErreur}" Style="{StaticResource ErrorLabel}" />
+
+                <Button Text="Annuler la vente" ImageSource="ico_close_r" Style="{StaticResource PrimaryButton}"
+                        BackgroundColor="Transparent" TextColor="{DynamicResource Danger}"
+                        BorderColor="{DynamicResource Danger}" BorderWidth="1"
+                        Command="{Binding AnnulerCommand}" IsVisible="{Binding PeutAnnuler}" IsEnabled="{Binding PasOccupe}"
+                        Margin="0,12,0,0" />
+
+                <Button Text="Ajouter" ImageSource="ico_plus_w" Style="{StaticResource PrimaryButton}"
+                        Command="{Binding AjouterCommand}" Margin="0,4,0,0" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:BottomNav Grid.Row="1" Actif="historique" />
+    </Grid>
+</ContentPage>

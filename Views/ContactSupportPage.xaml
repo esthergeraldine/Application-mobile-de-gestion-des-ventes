@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.ContactSupportPage"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="20,8,20,24" Spacing="6">
+                <controls:BackHeader Titre="Contacter le support" />
+                <Label Text="Décrivez votre demande et indiquez comment vous joindre." Style="{StaticResource MutedLabel}" FontSize="15" />
+                <Label Text="Votre nom" Style="{StaticResource FieldLabel}" FontSize="16" Margin="0,6,0,0" />
+                <Border Style="{StaticResource InputBorder}">
+                    <Entry Placeholder="Votre nom" Text="{Binding Nom}" Style="{StaticResource FieldEntry}" />
+                </Border>
+                <Label Text="{Binding ErreurNom}" IsVisible="{Binding ErreurNom, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+                <Label Text="E-mail ou téléphone pour la réponse" Style="{StaticResource FieldLabel}" FontSize="16" Margin="0,6,0,0" />
+                <Border Style="{StaticResource InputBorder}">
+                    <Entry Placeholder="ex. 6 99 12 34 56 ou nom@exemple.com" Text="{Binding Contact}" Keyboard="Email" Style="{StaticResource FieldEntry}" />
+                </Border>
+                <Label Text="{Binding ErreurContact}" IsVisible="{Binding ErreurContact, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+                <Label Text="Sujet" Style="{StaticResource FieldLabel}" FontSize="16" Margin="0,6,0,0" />
+                <Border Style="{StaticResource InputBorder}">
+                    <Entry Placeholder="Sujet de votre demande" Text="{Binding Sujet}" Style="{StaticResource FieldEntry}" />
+                </Border>
+                <Label Text="{Binding ErreurSujet}" IsVisible="{Binding ErreurSujet, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+                <Label Text="Catégorie de la demande" Style="{StaticResource FieldLabel}" FontSize="16" Margin="0,6,0,0" />
+                <controls:SelectField Placeholder="Choisir une catégorie" TitreMenu="Catégorie de la demande" Icone="ico_help_g"
+                                      ItemsSource="{Binding Categories}" SelectedItem="{Binding Categorie, Mode=TwoWay}" />
+                <Label Text="{Binding ErreurCategorie}" IsVisible="{Binding ErreurCategorie, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+                <Label Text="Description" Style="{StaticResource FieldLabel}" FontSize="16" Margin="0,6,0,0" />
+                <Border Style="{StaticResource InputBorder}" HeightRequest="140" Padding="12,6">
+                    <Editor Placeholder="Expliquez votre demande en quelques phrases" Text="{Binding Description}" Style="{StaticResource FieldEditor}" />
+                </Border>
+                <Label Text="{Binding ErreurDescription}" IsVisible="{Binding ErreurDescription, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+
+                <Border BackgroundColor="{DynamicResource MintBg}" StrokeThickness="0" Padding="14,12" Margin="0,8,0,0"
+                        IsVisible="{Binding MessageSucces, Converter={StaticResource NotEmpty}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Label Text="{Binding MessageSucces}" Style="{StaticResource TitleLabel}" FontSize="15" FontAttributes="None" />
+                </Border>
+                <Border BackgroundColor="{DynamicResource DangerBg}" StrokeThickness="0" Padding="14,12" Margin="0,8,0,0"
+                        IsVisible="{Binding MessageErreur, Converter={StaticResource NotEmpty}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Label Text="{Binding MessageErreur}" Style="{StaticResource ErrorLabel}" FontSize="15" />
+                </Border>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{DynamicResource BrandGreen}" />
+                <Button Text="Envoyer la demande" ImageSource="ico_check_w" Style="{StaticResource PrimaryButton}"
+                        Command="{Binding EnvoyerCommand}" IsEnabled="{Binding PasOccupe}" Margin="0,10,0,0" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:BottomNav Grid.Row="1" Actif="profil" />
+    </Grid>
+</ContentPage>

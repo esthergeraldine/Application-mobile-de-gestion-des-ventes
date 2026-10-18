@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.AjouterProduitPage"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="20,8,20,24" Spacing="10">
+            <controls:BackHeader Titre="{Binding Titre}" />
+
+            <Border WidthRequest="90" HeightRequest="90" HorizontalOptions="Center" Margin="0,10,0,12"
+                    BackgroundColor="{DynamicResource MintBg}" Stroke="{DynamicResource StrokeBrush}" StrokeThickness="1">
+                <Border.StrokeShape><RoundRectangle CornerRadius="45" /></Border.StrokeShape>
+                <Image Source="ico_camera_g" WidthRequest="52" HeightRequest="52" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChoisirPhotoCommand}" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Label Text="Nom du produit" Style="{StaticResource FieldLabel}" FontSize="19" />
+            <Border Style="{StaticResource InputBorder}" HeightRequest="54">
+                <Entry Placeholder="Ex : Eau minérale 50cl" Text="{Binding Nom}" Style="{StaticResource FieldEntry}"
+                       FontSize="18" FontAttributes="Bold" TextColor="{DynamicResource TitleColor}" />
+            </Border>
+
+            <Label Text="Catégorie" Style="{StaticResource FieldLabel}" FontSize="19" Margin="0,6,0,0" />
+            <controls:SelectField Placeholder="Choisir une catégorie" TitreMenu="Catégorie"
+                                  ItemsSource="{Binding Categories}"
+                                  SelectedItem="{Binding Categorie, Mode=TwoWay}"
+                                  Icone="ico_drop_g" />
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="18" RowDefinitions="Auto,Auto" Margin="0,18,0,0">
+                <Label Text="Prix d'achat (FCFA)" Style="{StaticResource FieldLabel}" FontSize="16" />
+                <Label Grid.Column="1" Text="Prix de vente (FCFA)" Style="{StaticResource FieldLabel}" FontSize="16" />
+                <Border Grid.Row="1" Style="{StaticResource InputBorder}" HeightRequest="56" Margin="0,8,0,0">
+                    <Entry Placeholder="0" Text="{Binding PrixAchatTexte}" Keyboard="Numeric" Style="{StaticResource FieldEntry}"
+                           FontSize="20" FontAttributes="Bold" TextColor="{DynamicResource TitleColor}" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource InputBorder}" HeightRequest="56" Margin="0,8,0,0">
+                    <Entry Placeholder="0" Text="{Binding PrixVenteTexte}" Keyboard="Numeric" Style="{StaticResource FieldEntry}"
+                           FontSize="20" FontAttributes="Bold" TextColor="{DynamicResource TitleColor}" />
+                </Border>
+            </Grid>
+
+            <Label Text="Stock" Style="{StaticResource FieldLabel}" FontSize="19" Margin="0,18,0,0" />
+            <Border Style="{StaticResource InputBorder}" HeightRequest="56">
+                <Entry Placeholder="0" Text="{Binding StockTexte}" Keyboard="Numeric" Style="{StaticResource FieldEntry}"
+                       FontSize="20" FontAttributes="Bold" TextColor="{DynamicResource TitleColor}" />
+            </Border>
+
+            <Button Text="Enregistrer" Style="{StaticResource PrimaryButton}" Command="{Binding EnregistrerCommand}" Margin="0,20,0,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

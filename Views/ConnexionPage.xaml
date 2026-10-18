@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.ConnexionPage"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="24,36,24,24" Spacing="18">
+            <Image Source="logo" WidthRequest="230" HorizontalOptions="Center" Aspect="AspectFit" />
+
+            <Label Text="Content de vous revoir !" FontSize="24" FontAttributes="Bold"
+                   TextColor="{DynamicResource TextDark}" HorizontalTextAlignment="Center" Margin="0,24,0,0" />
+            <Label Text="Connectez-vous à votre compte pour accéder à votre espace vendeur."
+                   Style="{StaticResource MutedLabel}" FontSize="16" HorizontalTextAlignment="Center" />
+
+            <Border Style="{StaticResource InputBorder}" Margin="0,12,0,0">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_person_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="E-mail ou téléphone" Text="{Binding Identifiant}"
+                           Keyboard="Email" Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource InputBorder}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_lock_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="Mot de passe" Text="{Binding MotDePasse}"
+                           IsPassword="True" Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <CheckBox IsChecked="{Binding Souvenir}" Color="{DynamicResource BrandGreen}" VerticalOptions="Center" />
+                <Label Grid.Column="1" Text="Se souvenir de moi" Style="{StaticResource BodyLabel}" VerticalOptions="Center" />
+                <Label Grid.Column="2" Text="Mot de passe oublié ?" FontAttributes="Bold" FontSize="14"
+                       TextColor="{DynamicResource TextDark}" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MotDePasseOublieCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <Label Text="{Binding MessageErreur}" IsVisible="{Binding ADesErreur}"
+                   TextColor="{DynamicResource Danger}" HorizontalTextAlignment="Center" />
+
+            <Button Text="Se connecter" ImageSource="ico_check_w" Style="{StaticResource PrimaryButton}"
+                    Command="{Binding SeConnecterCommand}" Margin="0,16,0,0" />
+            <Button Text="Créer un compte" Style="{StaticResource SoftButton}"
+                    Command="{Binding CreerCompteCommand}" />
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{DynamicResource BrandGreen}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

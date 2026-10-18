@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.ParametresPage"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="20,8,20,16" Spacing="12">
+                <controls:BackHeader Titre="Paramètres" />
+
+                <Label Text="Notifications" Style="{StaticResource TitleLabel}" FontSize="24" />
+                <Border Style="{StaticResource CardBorder}" Padding="16,6">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Alertes de vente à perte" Style="{StaticResource TitleLabel}" FontAttributes="None" FontSize="17" VerticalOptions="Center" />
+                        <Switch Grid.Column="1" IsToggled="{Binding AlertesVenteAPerte}" OnColor="#006652" ThumbColor="White" />
+                    </Grid>
+                </Border>
+                <Border Style="{StaticResource CardBorder}" Padding="16,6">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Rappels de clôture" Style="{StaticResource TitleLabel}" FontAttributes="None" FontSize="17" VerticalOptions="Center" />
+                        <Switch Grid.Column="1" IsToggled="{Binding RappelsCloture}" OnColor="#006652" ThumbColor="White" />
+                    </Grid>
+                </Border>
+
+                <Label Text="Apparence" Style="{StaticResource TitleLabel}" FontSize="24" Margin="0,18,0,0" />
+                <Border Style="{StaticResource CardBorder}" Padding="10,2">
+                    <RadioButton GroupName="theme" Content="Thème clair" IsChecked="{Binding ThemeClair}"
+                                 TextColor="{DynamicResource TitleColor}" FontSize="19" BackgroundColor="Transparent" />
+                </Border>
+                <Border Style="{StaticResource CardBorder}" Padding="10,2">
+                    <RadioButton GroupName="theme" Content="Thème sombre" IsChecked="{Binding ThemeSombre}"
+                                 TextColor="{DynamicResource TitleColor}" FontSize="19" BackgroundColor="Transparent" />
+                </Border>
+
+                <Label Text="Langue" Style="{StaticResource TitleLabel}" FontSize="24" Margin="0,18,0,0" />
+                <controls:SelectField Placeholder="Choisir la langue" TitreMenu="Langue"
+                                      ItemsSource="{Binding Langues}"
+                                      SelectedItem="{Binding Langue, Mode=TwoWay}"
+                                      Icone="ico_help_g" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:BottomNav Grid.Row="1" Actif="profil" />
+    </Grid>
+</ContentPage>

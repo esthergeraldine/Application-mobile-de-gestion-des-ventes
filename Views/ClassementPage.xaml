@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.ClassementPage"
+             x:Name="Root"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="16,8,16,20" Spacing="12">
+                <controls:BackHeader Titre="Classement produits" />
+
+                <!-- Critère : recettes / bénéfices -->
+                <HorizontalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding Criteres}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{Binding Fond}" StrokeThickness="0" Padding="20,11">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="18" />
+                                </Border.StrokeShape>
+                                <Label Text="{Binding Libelle}" FontSize="16" FontAttributes="Bold" TextColor="{Binding Texte}" />
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.SelectionnerCritereCommand, Source={x:Reference Root}}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+
+                <!-- Période -->
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding Periodes}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border BackgroundColor="{Binding Fond}" StrokeThickness="0" Padding="16,9">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="16" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding Libelle}" FontSize="15" FontAttributes="Bold" TextColor="{Binding Texte}" />
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectionnerPeriodeCommand, Source={x:Reference Root}}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                </ScrollView>
+
+                <!-- Période personnalisée -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10" IsVisible="{Binding EstPersonnalisee}">
+                    <Border Style="{StaticResource InputBorder}" Padding="10,0" HeightRequest="50">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <Image Source="ico_calendar_g" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
+                            <DatePicker Grid.Column="1" Date="{Binding DateDebut}" MaximumDate="{Binding DateMax}" Format="dd/MM/yyyy"
+                                        TextColor="{DynamicResource TextDark}" BackgroundColor="Transparent" VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource InputBorder}" Padding="10,0" HeightRequest="50">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                            <Image Source="ico_calendar_g" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
+                            <DatePicker Grid.Column="1" Date="{Binding DateFin}" MaximumDate="{Binding DateMax}" Format="dd/MM/yyyy"
+                                        TextColor="{DynamicResource TextDark}" BackgroundColor="Transparent" VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Label Text="{Binding PeriodeTexte}" Style="{StaticResource MutedLabel}" FontSize="14" />
+
+                <!-- Chargement -->
+                <ActivityIndicator IsRunning="{Binding EstEnChargement}" IsVisible="{Binding EstEnChargement}"
+                                   Color="{DynamicResource BrandGreen}" Margin="0,16" />
+
+                <!-- Erreur -->
+                <Border BackgroundColor="{DynamicResource DangerBg}" StrokeThickness="0" Padding="16"
+                        IsVisible="{Binding ADesErreur}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="{Binding MessageErreur}" Style="{StaticResource ErrorLabel}" FontSize="15" />
+                        <Button Text="Réessayer" ImageSource="ico_refresh_w" Style="{StaticResource PrimaryButton}"
+                                Command="{Binding ChargerCommand}" HeightRequest="46" FontSize="15" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- État vide -->
+                <VerticalStackLayout Spacing="10" HorizontalOptions="Center" Margin="0,30,0,0" IsVisible="{Binding EstVide}">
+                    <Border WidthRequest="96" HeightRequest="96" BackgroundColor="{DynamicResource MintBg}" StrokeThickness="0" HorizontalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="48" />
+                        </Border.StrokeShape>
+                        <Image Source="ico_trophy_g" WidthRequest="48" HeightRequest="48" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <Label Text="Aucune vente sur cette période" Style="{StaticResource TitleLabel}" FontSize="19" HorizontalTextAlignment="Center" />
+                    <Label Text="Le classement apparaîtra dès qu'une vente sera enregistrée." Style="{StaticResource MutedLabel}"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+
+                <!-- Classement -->
+                <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding Items}" IsVisible="{Binding AfficheListe}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{DynamicResource CardBg}" Stroke="{DynamicResource BorderSoftBrush}"
+                                    StrokeThickness="1" Padding="12,12">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="16" />
+                                </Border.StrokeShape>
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding EstPremier}" Value="True">
+                                        <Setter Property="Stroke">
+                                            <Setter.Value>
+                                                <SolidColorBrush Color="#F28C28" />
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="StrokeThickness" Value="2" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+
+                                <Grid ColumnDefinitions="34,Auto,*,Auto" ColumnSpacing="10">
+                                    <Label Text="{Binding Rang}" FontSize="26" FontAttributes="Bold" VerticalOptions="Center"
+                                           TextColor="{Binding Rang, Converter={StaticResource RangCouleur}}" />
+                                    <Border Grid.Column="1" Style="{StaticResource TileBorder}" WidthRequest="50" HeightRequest="50" VerticalOptions="Center">
+                                        <Image Source="{Binding Icone, Converter={StaticResource IconKey}}" WidthRequest="30" HeightRequest="30"
+                                               HorizontalOptions="Center" VerticalOptions="Center" />
+                                    </Border>
+
+                                    <VerticalStackLayout Grid.Column="2" Spacing="4" VerticalOptions="Center">
+                                        <HorizontalStackLayout Spacing="6">
+                                            <Label Text="{Binding Nom}" Style="{StaticResource TitleLabel}" FontSize="16" LineBreakMode="TailTruncation" />
+                                            <Image Source="ico_trophy_o" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" IsVisible="{Binding EstPremier}" />
+                                        </HorizontalStackLayout>
+                                        <Label Text="{Binding QuantiteTexte}" Style="{StaticResource MutedLabel}" FontSize="13" />
+                                        <ProgressBar Progress="{Binding PartRelative}" ProgressColor="{Binding CouleurIndicateur}" HeightRequest="6" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Column="3" Spacing="2" VerticalOptions="Center" HorizontalOptions="End">
+                                        <Label Text="{Binding ValeurPrincipaleTexte}" FontSize="16" FontAttributes="Bold"
+                                               TextColor="{Binding CouleurValeur}" HorizontalTextAlignment="End" />
+                                        <Label Text="{Binding ValeurPrincipaleLibelle}" Style="{StaticResource MutedLabel}" FontSize="11" HorizontalTextAlignment="End" />
+                                        <Label Text="{Binding ValeurSecondaireTexte}" Style="{StaticResource MutedLabel}" FontSize="11" HorizontalTextAlignment="End" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:BottomNav Grid.Row="1" Actif="accueil" />
+    </Grid>
+</ContentPage>

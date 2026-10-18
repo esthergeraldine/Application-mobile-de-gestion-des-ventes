@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.KiosquePage"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="20,8,20,24" Spacing="4">
+                <controls:BackHeader Titre="Informations du kiosque" />
+
+                <Border WidthRequest="92" HeightRequest="92" HorizontalOptions="Center" Margin="0,4,0,10"
+                        BackgroundColor="{DynamicResource BrandGreen}" StrokeThickness="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="46" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="0">
+                        <Image Source="ico_store_w" WidthRequest="38" HeightRequest="38" HorizontalOptions="Center" />
+                        <Label Text="{Binding Initiales}" TextColor="White" FontAttributes="Bold" FontSize="15" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="{DynamicResource InfoBg}" StrokeThickness="0" Padding="14,12" Margin="0,0,0,6">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Image Source="ico_info_g" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                        <Label Grid.Column="1" Text="Ces informations permettent d'identifier votre kiosque."
+                               Style="{StaticResource BodyLabel}" FontSize="15" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{DynamicResource BrandGreen}" />
+
+                <Label Text="Nom du kiosque" Style="{StaticResource MutedLabel}" FontSize="14" Margin="0,8,0,0" />
+                <Border Style="{StaticResource InputBorder}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Image Source="ico_store_g" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                        <Entry Grid.Column="1" Placeholder="Nom du kiosque" Text="{Binding Nom}" Style="{StaticResource FieldEntry}" />
+                        <Image Grid.Column="2" Source="ico_edit_k" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+                <Label Text="{Binding ErreurNom}" IsVisible="{Binding ErreurNom, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+                <Label Text="Nom du responsable" Style="{StaticResource MutedLabel}" FontSize="14" Margin="0,8,0,0" />
+                <Border Style="{StaticResource InputBorder}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Image Source="ico_person_g" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                        <Entry Grid.Column="1" Placeholder="Nom du responsable" Text="{Binding Responsable}" Style="{StaticResource FieldEntry}" />
+                        <Image Grid.Column="2" Source="ico_edit_k" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+                <Label Text="{Binding ErreurResponsable}" IsVisible="{Binding ErreurResponsable, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+                <Label Text="Téléphone" Style="{StaticResource MutedLabel}" FontSize="14" Margin="0,8,0,0" />
+                <Border Style="{StaticResource InputBorder}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Image Source="ico_phone_g" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                        <Entry Grid.Column="1" Placeholder="6 99 12 34 56" Text="{Binding Telephone}" Keyboard="Telephone" Style="{StaticResource FieldEntry}" />
+                        <Image Grid.Column="2" Source="ico_edit_k" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+                <Label Text="{Binding ErreurTelephone}" IsVisible="{Binding ErreurTelephone, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+                <Label Text="Région" Style="{StaticResource MutedLabel}" FontSize="14" Margin="0,8,0,0" />
+                <controls:SelectField Placeholder="Choisir une région" TitreMenu="Région" Icone="ico_pin_g"
+                                      ItemsSource="{Binding Regions}" SelectedItem="{Binding Region, Mode=TwoWay}" />
+                <Label Text="{Binding ErreurRegion}" IsVisible="{Binding ErreurRegion, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+                <Label Text="Ville" Style="{StaticResource MutedLabel}" FontSize="14" Margin="0,8,0,0" />
+                <controls:SelectField Placeholder="Choisir une ville" TitreMenu="Ville" Icone="ico_city_g"
+                                      ItemsSource="{Binding Villes}" SelectedItem="{Binding Ville, Mode=TwoWay}" />
+                <Label Text="{Binding ErreurVille}" IsVisible="{Binding ErreurVille, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+                <Label Text="Quartier" Style="{StaticResource MutedLabel}" FontSize="14" Margin="0,8,0,0" />
+                <controls:SelectField Placeholder="Choisir un quartier" TitreMenu="Quartier" Icone="ico_home_g"
+                                      ItemsSource="{Binding Quartiers}" SelectedItem="{Binding Quartier, Mode=TwoWay}" />
+                <Label Text="{Binding ErreurQuartier}" IsVisible="{Binding ErreurQuartier, Converter={StaticResource NotEmpty}}" Style="{StaticResource ErrorLabel}" />
+                <Label Text="Adresse précise" Style="{StaticResource MutedLabel}" FontSize="14" Margin="0,8,0,0" />
+                <Border Style="{StaticResource InputBorder}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Image Source="ico_pin_g" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                        <Entry Grid.Column="1" Placeholder="Rue, repère, carrefour..." Text="{Binding AdressePrecise}" Style="{StaticResource FieldEntry}" />
+                        <Image Grid.Column="2" Source="ico_edit_k" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <Border BackgroundColor="{DynamicResource MintBg}" StrokeThickness="0" Padding="14,12" Margin="0,10,0,0"
+                        IsVisible="{Binding MessageSucces, Converter={StaticResource NotEmpty}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Label Text="{Binding MessageSucces}" Style="{StaticResource TitleLabel}" FontSize="15" FontAttributes="None" />
+                </Border>
+                <Border BackgroundColor="{DynamicResource DangerBg}" StrokeThickness="0" Padding="14,12" Margin="0,10,0,0"
+                        IsVisible="{Binding MessageErreur, Converter={StaticResource NotEmpty}}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Label Text="{Binding MessageErreur}" Style="{StaticResource ErrorLabel}" FontSize="15" />
+                </Border>
+
+                <Button Text="Enregistrer les modifications" ImageSource="ico_save_w" Style="{StaticResource PrimaryButton}"
+                        Command="{Binding EnregistrerCommand}" IsEnabled="{Binding PasOccupe}" Margin="0,14,0,0" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:BottomNav Grid.Row="1" Actif="profil" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.AideCategoriePage"
+             x:Name="Root"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="20,8,20,24" Spacing="12">
+                <controls:BackHeader Titre="{Binding Titre}" />
+                <Label Text="{Binding Description}" Style="{StaticResource MutedLabel}" FontSize="15" />
+                <Label Text="{Binding MessageErreur}" IsVisible="{Binding ADesErreur}" Style="{StaticResource ErrorLabel}" />
+
+                <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding Articles}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource CardBorder}" Padding="14,12">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                    <VerticalStackLayout Spacing="3">
+                                        <Label Text="{Binding Titre}" Style="{StaticResource TitleLabel}" FontSize="17" />
+                                        <Label Text="{Binding Resume}" Style="{StaticResource MutedLabel}" FontSize="14" />
+                                        <Label Text="{Binding CategorieTitre}" TextColor="{DynamicResource MintAccent}" FontSize="12" FontAttributes="Bold" />
+                                    </VerticalStackLayout>
+                                    <Image Grid.Column="1" Source="ico_chevron_right_g" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                                </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.OuvrirArticleCommand, Source={x:Reference Root}}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:BottomNav Grid.Row="1" Actif="profil" />
+    </Grid>
+</ContentPage>

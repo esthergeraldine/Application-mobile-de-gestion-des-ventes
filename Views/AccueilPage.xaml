@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.AccueilPage"
+             Shell.NavBarIsVisible="False">
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="16,0,16,16" Spacing="14">
+                <controls:AppHeader SousTitre="Bilan journalier" />
+
+                <!-- Recette du jour -->
+                <Border BackgroundColor="{DynamicResource InfoBg}" StrokeThickness="0" Padding="22,20">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="24" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="6">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Recette totale journalière" Style="{StaticResource BodyLabel}" FontSize="17" />
+                            <Image Grid.Column="1" Source="ico_wallet_g" WidthRequest="28" HeightRequest="28" />
+                        </Grid>
+                        <HorizontalStackLayout Spacing="8" Margin="0,6,0,6">
+                            <Label Text="{Binding RecetteTexte}" FontSize="46" FontAttributes="Bold" TextColor="{DynamicResource TextDark}" />
+                            <Label Text="FCFA" FontSize="18" FontAttributes="Bold" TextColor="{DynamicResource TextDark}"
+                                   VerticalOptions="End" Margin="0,0,0,10" />
+                        </HorizontalStackLayout>
+                        <Label Text="Bénéfice net estimé" Style="{StaticResource BodyLabel}" FontSize="16" />
+                        <Grid ColumnDefinitions="Auto,*">
+                            <Border BackgroundColor="{DynamicResource MintBg}" StrokeThickness="0" Padding="14,8">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Image Source="ico_trending_g" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
+                                    <Label Text="{Binding BeneficeTexte}" Style="{StaticResource TitleLabel}" FontSize="18" VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
+                            <Label Grid.Column="1" Text="{Binding MargeTexte}" Style="{StaticResource TitleLabel}" FontSize="16"
+                                   FontAttributes="None" HorizontalOptions="End" VerticalOptions="Center" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Statistiques -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Border BackgroundColor="{DynamicResource CardBg}" StrokeThickness="0" Padding="18,16">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                        <VerticalStackLayout Spacing="6">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="{Binding Transactions}" FontSize="32" FontAttributes="Bold" TextColor="{DynamicResource TextDark}" />
+                                <Image Grid.Column="1" Source="ico_receipt_g" WidthRequest="26" HeightRequest="26" VerticalOptions="Start" />
+                            </Grid>
+                            <Label Text="Transactions validées" Style="{StaticResource BodyLabel}" FontSize="16" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="{DynamicResource CardBg}" StrokeThickness="0" Padding="18,16">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                        <VerticalStackLayout Spacing="6">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="{Binding ArticlesSortis}" FontSize="32" FontAttributes="Bold" TextColor="{DynamicResource TextDark}" />
+                                <Image Grid.Column="1" Source="ico_inventory_g" WidthRequest="26" HeightRequest="26" VerticalOptions="Start" />
+                            </Grid>
+                            <Label Text="Articles sortis" Style="{StaticResource BodyLabel}" FontSize="16" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Button Text="Nouvelle vente" ImageSource="ico_plus_w" Style="{StaticResource OrangeButton}"
+                        Command="{Binding NouvelleVenteCommand}" HeightRequest="56" />
+
+                <!-- Top 3 -->
+                <Grid ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+                    <Label Text="Top 3 produits" Style="{StaticResource TitleLabel}" FontSize="22" />
+                    <Label Grid.Column="1" Text="Voir tout" Style="{StaticResource TitleLabel}" FontSize="16"
+                           FontAttributes="None" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding VoirToutCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+
+                <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding Top}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource CardBorder}" Padding="16,14">
+                                <Grid ColumnDefinitions="44,*,Auto">
+                                    <Label Text="{Binding Rang}" FontSize="32" FontAttributes="Bold" VerticalOptions="Center"
+                                           TextColor="{Binding Rang, Converter={StaticResource RangCouleur}}" />
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                        <Label Text="{Binding Nom}" FontSize="17" FontAttributes="Bold" TextColor="{DynamicResource TextDark}" />
+                                        <Label Text="{Binding PrixVente, Converter={StaticResource Fcfa}}" Style="{StaticResource TitleLabel}" FontSize="20" />
+                                    </VerticalStackLayout>
+                                    <Image Grid.Column="2" Source="ico_star_o" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:BottomNav Grid.Row="1" Actif="accueil" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.InscriptionPage"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="20,36,20,24" Spacing="16">
+            <Label Text="Créer votre compte" FontSize="32" FontAttributes="Bold" TextColor="{DynamicResource TitleColor}" />
+            <Label Text="Rejoignez VenteJour et gérez facilement votre kiosque."
+                   Style="{StaticResource BodyLabel}" FontSize="18" Margin="0,0,0,12" />
+
+            <Border Style="{StaticResource InputBorder}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_person_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="E-mail ou téléphone" Text="{Binding Identifiant}"
+                           Keyboard="Email" Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource InputBorder}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_work_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="Nom du kiosque" Text="{Binding NomKiosque}" Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource InputBorder}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_phone_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="Téléphone" Text="{Binding Telephone}"
+                           Keyboard="Telephone" Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource InputBorder}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_lock_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="Mot de passe" Text="{Binding MotDePasse}"
+                           IsPassword="True" Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource InputBorder}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_lock_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="Confirmation du mot de passe" Text="{Binding Confirmation}"
+                           IsPassword="True" Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+
+            <Label Text="{Binding MessageErreur}" IsVisible="{Binding ADesErreur}"
+                   TextColor="{DynamicResource Danger}" HorizontalTextAlignment="Center" />
+
+            <Button Text="S'inscrire" ImageSource="ico_check_w" Style="{StaticResource PrimaryButton}"
+                    Command="{Binding SInscrireCommand}" Margin="0,8,0,0" />
+
+            <Label HorizontalTextAlignment="Center" FontSize="17">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="déjà inscrit ? " TextColor="#006652" />
+                        <Span Text="se connecter" FontAttributes="Bold" TextColor="#006652" />
+                    </FormattedString>
+                </Label.FormattedText>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SeConnecterCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label HorizontalTextAlignment="Center" FontSize="15" Margin="12,8,12,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="En créant un compte, vous acceptez nos " TextColor="#3D4A47" />
+                        <Span Text="Conditions d'utilisation" TextColor="#2FCB9C" FontAttributes="Bold" />
+                        <Span Text=" et " TextColor="#3D4A47" />
+                        <Span Text="notre Politique de confidentialité." TextColor="#2FCB9C" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AfficherLegalCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{DynamicResource BrandGreen}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
