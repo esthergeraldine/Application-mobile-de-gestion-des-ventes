@@ -133,6 +133,11 @@ public partial class SignalerProblemeViewModel : BaseViewModel
             DateProbleme = DateTime.Today;
             RetirerPieceJointe();
         }
+        catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
+        {
+            // Réseau coupé ou délai dépassé : rien n'a été envoyé, la saisie est conservée.
+            MessageErreur = "Pas de connexion au serveur : le signalement n'a PAS été envoyé. Vos informations sont conservées, réessayez plus tard.";
+        }
         catch (Exception ex)
         {
             MessageErreur = "Le signalement n'a pas pu être enregistré : " + ex.Message;

@@ -24,8 +24,9 @@ public partial class ConnexionViewModel : BaseViewModel
     [RelayCommand]
     private async Task SeConnecterAsync()
     {
+        if (IsBusy) return;
         MessageErreur = null;
-        if (string.IsNullOrWhiteSpace(Identifiant) || string.IsNullOrWhiteSpace(MotDePasse))
+        if (string.IsNullOrWhiteSpace(Identifiant) || string.IsNullOrEmpty(MotDePasse))
         {
             MessageErreur = "Veuillez saisir votre e-mail ou téléphone et votre mot de passe.";
             return;
@@ -34,18 +35,30 @@ public partial class ConnexionViewModel : BaseViewModel
         IsBusy = true;
         try
         {
-            var utilisateur = await _auth.ConnexionAsync(Identifiant, MotDePasse);
-            if (utilisateur == null)
-            {
-                MessageErreur = "Identifiants incorrects.";
-                return;
-            }
+            await _auth.ConnexionAsync(Identifiant, MotDePasse, Souvenir);
+            MotDePasse = null; // le mot de passe ne reste pas en mémoire dans le formulaire
             await _nav.GoToAsync(Routes.Racine(Routes.Accueil));
+        }
+        catch (AuthentificationException ex)
+        {
+            MessageErreur = ex.Message;
+        }
+        catch (Exception ex)
+        {
+            MessageErreur = "Connexion impossible : " + ex.Message;
         }
         finally
         {
             IsBusy = false;
         }
+    }
+
+    /// <summary>Appelé à chaque affichage de l'écran : efface le mot de passe et les messages (ex. après une déconnexion).</summary>
+    [RelayCommand]
+    private void Reinitialiser()
+    {
+        MotDePasse = null;
+        MessageErreur = null;
     }
 
     [RelayCommand]

@@ -38,6 +38,22 @@
                                       ItemsSource="{Binding Langues}"
                                       SelectedItem="{Binding Langue, Mode=TwoWay}"
                                       Icone="ico_help_g" />
+
+                <Label Text="Démonstration" Style="{StaticResource TitleLabel}" FontSize="24" Margin="0,18,0,0" />
+                <Border Style="{StaticResource CardBorder}" Padding="16,10">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                            <Label Text="Simuler une panne réseau" Style="{StaticResource TitleLabel}" FontAttributes="None" FontSize="17" />
+                            <Label Text="Active le mode hors ligne du faux serveur (taux de change, support)." Style="{StaticResource MutedLabel}" FontSize="12" />
+                        </VerticalStackLayout>
+                        <Switch Grid.Column="1" IsToggled="{Binding SimulerPanneReseau}" OnColor="#006652" ThumbColor="White" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <Button Text="Charger des données de démonstration" Style="{StaticResource SoftButton}" FontSize="15" HeightRequest="48"
+                        Command="{Binding ChargerDemoCommand}" IsEnabled="{Binding PasOccupe}" />
+                <Label Text="Par défaut, un compte démarre sans aucune donnée. Ce bouton ajoute des exemples (captures d'écran, démonstration)."
+                       Style="{StaticResource MutedLabel}" FontSize="12" />
             </VerticalStackLayout>
         </ScrollView>
 

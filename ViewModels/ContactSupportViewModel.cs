@@ -108,6 +108,11 @@ public partial class ContactSupportViewModel : BaseViewModel
             Description = null;
             Categorie = null;
         }
+        catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
+        {
+            // Réseau coupé ou délai dépassé : rien n'a été envoyé, la saisie est conservée.
+            MessageErreur = "Pas de connexion au serveur : la demande n'a PAS été envoyée. Vos informations sont conservées, réessayez plus tard.";
+        }
         catch (Exception ex)
         {
             // Les champs sont conservés pour permettre de réessayer.

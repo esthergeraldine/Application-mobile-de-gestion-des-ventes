@@ -33,4 +33,11 @@ public static class ValidationHelper
     public static bool EmailValide(string email) => !string.IsNullOrWhiteSpace(email) && Email.IsMatch(email.Trim());
 
     public static bool ContactValide(string contact) => EmailValide(contact) || TelephoneValide(contact);
+
+    /// <summary>Clé de comparaison d'un identifiant : e-mail en minuscules, ou téléphone en 9 chiffres.</summary>
+    public static string NormaliserIdentifiant(string identifiant)
+    {
+        if (string.IsNullOrWhiteSpace(identifiant)) return string.Empty;
+        return EmailValide(identifiant) ? identifiant.Trim().ToLowerInvariant() : ChiffresTelephone(identifiant);
+    }
 }

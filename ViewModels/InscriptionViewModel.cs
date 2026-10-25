@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using VenteJour.Models;
 using VenteJour.Services;
 
 namespace VenteJour.ViewModels;
@@ -27,9 +26,12 @@ public partial class InscriptionViewModel : BaseViewModel
     [RelayCommand]
     private async Task SInscrireAsync()
     {
+        if (IsBusy) return;
         MessageErreur = null;
+
+        // Contrôles de saisie avec un message précis pour chaque cas
         if (string.IsNullOrWhiteSpace(Identifiant) || string.IsNullOrWhiteSpace(NomKiosque) ||
-            string.IsNullOrWhiteSpace(Telephone) || string.IsNullOrWhiteSpace(MotDePasse))
+            string.IsNullOrWhiteSpace(Telephone) || string.IsNullOrEmpty(MotDePasse))
         {
             MessageErreur = "Veuillez remplir tous les champs.";
             return;
@@ -43,16 +45,31 @@ public partial class InscriptionViewModel : BaseViewModel
         IsBusy = true;
         try
         {
-            await _auth.InscriptionAsync(new Utilisateur
-            {
-                Email = Identifiant, NomKiosque = NomKiosque, Telephone = Telephone
-            }, MotDePasse);
+            await _auth.InscriptionAsync(Identifiant, NomKiosque, Telephone, MotDePasse);
+            MotDePasse = null;
+            Confirmation = null;
             await _nav.GoToAsync(Routes.Racine(Routes.Accueil));
+        }
+        catch (AuthentificationException ex)
+        {
+            MessageErreur = ex.Message; // les champs saisis sont conservés
+        }
+        catch (Exception ex)
+        {
+            MessageErreur = "Inscription impossible : " + ex.Message;
         }
         finally
         {
             IsBusy = false;
         }
+    }
+
+    [RelayCommand]
+    private void Reinitialiser()
+    {
+        MotDePasse = null;
+        Confirmation = null;
+        MessageErreur = null;
     }
 
     [RelayCommand]

@@ -11,12 +11,14 @@ public partial class AccueilViewModel : BaseViewModel
 {
     private readonly IBilanService _bilan;
     private readonly IClassementService _classement;
+    private readonly ITauxChangeService _taux;
     private readonly INavigationService _nav;
 
-    public AccueilViewModel(IBilanService bilan, IClassementService classement, INavigationService nav)
+    public AccueilViewModel(IBilanService bilan, IClassementService classement, ITauxChangeService taux, INavigationService nav)
     {
         _bilan = bilan;
         _classement = classement;
+        _taux = taux;
         _nav = nav;
     }
 
@@ -25,6 +27,12 @@ public partial class AccueilViewModel : BaseViewModel
     [ObservableProperty] private string margeTexte = "Marge 0 %";
     [ObservableProperty] private int transactions;
     [ObservableProperty] private int articlesSortis;
+
+    // Phase B : conversion de la recette en euros via l'API (simulée)
+    [ObservableProperty] private string recetteEurTexte;
+    [ObservableProperty] private string noteTaux;
+    [ObservableProperty] private bool chargementTaux;
+    [ObservableProperty] private bool aucunTop;
 
     public ObservableCollection<ClassementProduit> Top { get; } = new();
 
@@ -43,6 +51,25 @@ public partial class AccueilViewModel : BaseViewModel
         Top.Clear();
         foreach (var c in top)
             Top.Add(c);
+        AucunTop = Top.Count == 0;
+
+        // Le bilan est déjà affiché : le taux (appel réseau) arrive ensuite sans bloquer l'écran
+        await ChargerTauxAsync(bilan.Recette);
+    }
+
+    private async Task ChargerTauxAsync(int recette)
+    {
+        ChargementTaux = true;
+        try
+        {
+            var resultat = await _taux.ObtenirTauxEurAsync();
+            RecetteEurTexte = resultat.Disponible ? "≈ " + Format.Devise(recette * resultat.Taux, "EUR") : null;
+            NoteTaux = resultat.Message;
+        }
+        finally
+        {
+            ChargementTaux = false;
+        }
     }
 
     [RelayCommand]

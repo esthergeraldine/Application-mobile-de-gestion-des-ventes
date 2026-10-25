@@ -92,6 +92,11 @@ public abstract partial class VenteFormViewModelBase : BaseViewModel
     /// <summary>Contrôles communs avant d'enregistrer. Retourne false si la vente est impossible.</summary>
     protected async Task<bool> VerifierAsync()
     {
+        if (Produits.Count == 0)
+        {
+            await Dialog.AlertAsync("Aucun produit", "Ajoutez d'abord vos produits dans l'onglet Produits pour pouvoir enregistrer une vente.");
+            return false;
+        }
         if (ProduitSelectionne == null)
         {
             await Dialog.AlertAsync("Article manquant", "Veuillez choisir un article.");

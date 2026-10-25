@@ -26,8 +26,10 @@ public partial class ProfilViewModel : BaseViewModel
     private async Task ChargerAsync()
     {
         var k = await _kiosques.GetKiosqueAsync();
-        Nom = k.Responsable;
-        NomKiosque = k.Nom;
+        // Un compte neuf n'a pas encore de responsable : on affiche le nom du kiosque et on invite à compléter la fiche
+        var aResponsable = !string.IsNullOrWhiteSpace(k.Responsable);
+        Nom = aResponsable ? k.Responsable : (string.IsNullOrWhiteSpace(k.Nom) ? "Mon kiosque" : k.Nom);
+        NomKiosque = aResponsable ? k.Nom : "Complétez les informations du kiosque";
     }
 
     [RelayCommand]

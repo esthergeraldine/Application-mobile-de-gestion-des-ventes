@@ -49,6 +49,18 @@ public class PlageDates
 
     public bool Contient(DateTime date) => date >= Debut && date < Fin;
 
+    /// <summary>Plages de l'écran Historique : Aujourd'hui, Hier, ou les 7 derniers jours (aujourd'hui inclus).</summary>
+    public static PlageDates Pour(PeriodeVente periode)
+    {
+        var aujourdhui = DateTime.Today;
+        return periode switch
+        {
+            PeriodeVente.Hier => new PlageDates(aujourdhui.AddDays(-1), aujourdhui),
+            PeriodeVente.Semaine => new PlageDates(aujourdhui.AddDays(-6), aujourdhui.AddDays(1)),
+            _ => new PlageDates(aujourdhui, aujourdhui.AddDays(1))
+        };
+    }
+
     /// <summary>
     /// Aujourd'hui = 00:00 → lendemain 00:00. Cette semaine = du lundi au dimanche. Ce mois = du 1er au dernier jour.
     /// Personnalisée = du jour de début inclus au jour de fin inclus.

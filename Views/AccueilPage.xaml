@@ -22,6 +22,14 @@
                             <Label Text="FCFA" FontSize="18" FontAttributes="Bold" TextColor="{DynamicResource TextDark}"
                                    VerticalOptions="End" Margin="0,0,0,10" />
                         </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="8" Margin="0,-6,0,4">
+                            <ActivityIndicator IsRunning="{Binding ChargementTaux}" IsVisible="{Binding ChargementTaux}"
+                                               WidthRequest="18" HeightRequest="18" Color="{DynamicResource BrandGreen}" VerticalOptions="Center" />
+                            <Label Text="{Binding RecetteEurTexte}" IsVisible="{Binding RecetteEurTexte, Converter={StaticResource NotEmpty}}"
+                                   Style="{StaticResource TitleLabel}" FontSize="16" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Label Text="{Binding NoteTaux}" IsVisible="{Binding NoteTaux, Converter={StaticResource NotEmpty}}"
+                               TextColor="{DynamicResource Danger}" FontSize="12" Margin="0,-4,0,4" />
                         <Label Text="Bénéfice net estimé" Style="{StaticResource BodyLabel}" FontSize="16" />
                         <Grid ColumnDefinitions="Auto,*">
                             <Border BackgroundColor="{DynamicResource MintBg}" StrokeThickness="0" Padding="14,8">
@@ -92,6 +100,9 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </VerticalStackLayout>
+
+                <Label Text="Aucune vente aujourd'hui pour le moment. Appuyez sur « Nouvelle vente » pour commencer."
+                       IsVisible="{Binding AucunTop}" Style="{StaticResource MutedLabel}" FontSize="15" HorizontalTextAlignment="Center" Margin="0,8" />
             </VerticalStackLayout>
         </ScrollView>
 
