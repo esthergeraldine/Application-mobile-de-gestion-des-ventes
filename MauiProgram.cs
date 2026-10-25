@@ -113,6 +113,7 @@ public static class MauiProgram
         builder.Services.AddTransient<ProfilViewModel>();
         builder.Services.AddTransient<ParametresViewModel>();
         builder.Services.AddTransient<KiosqueViewModel>();
+        builder.Services.AddTransient<MotDePasseOublieViewModel>();
         builder.Services.AddTransient<ClassementViewModel>();
         builder.Services.AddTransient<AideViewModel>();
         builder.Services.AddTransient<AideCategorieViewModel>();
@@ -135,6 +136,7 @@ public static class MauiProgram
         builder.Services.AddTransient<ProfilPage>();
         builder.Services.AddTransient<ParametresPage>();
         builder.Services.AddTransient<KiosquePage>();
+        builder.Services.AddTransient<MotDePasseOubliePage>();
         builder.Services.AddTransient<ClassementPage>();
         builder.Services.AddTransient<AidePage>();
         builder.Services.AddTransient<AideCategoriePage>();

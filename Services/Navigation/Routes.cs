@@ -19,6 +19,7 @@ public static class Routes
     public const string Detail = "detail";
     public const string Parametres = "parametres";
     public const string Kiosque = "kiosque";
+    public const string MotDePasseOublie = "motdepasseoublie";
     public const string Classement = "classement";
     public const string Aide = "aide";
     public const string AideCategorie = "aidecategorie";

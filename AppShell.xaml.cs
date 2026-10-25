@@ -17,6 +17,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(Routes.Detail, typeof(DetailTransactionPage));
         Routing.RegisterRoute(Routes.Parametres, typeof(ParametresPage));
         Routing.RegisterRoute(Routes.Kiosque, typeof(KiosquePage));
+        Routing.RegisterRoute(Routes.MotDePasseOublie, typeof(MotDePasseOubliePage));
         Routing.RegisterRoute(Routes.Classement, typeof(ClassementPage));
         Routing.RegisterRoute(Routes.Aide, typeof(AidePage));
         Routing.RegisterRoute(Routes.AideCategorie, typeof(AideCategoriePage));

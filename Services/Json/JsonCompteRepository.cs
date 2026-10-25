@@ -19,4 +19,14 @@ public class JsonCompteRepository : ICompteRepository
             liste.Add(compte);
             return compte;
         });
+
+    public Task MettreAJourAsync(CompteLocal compte)
+        => _fichier.TransformerAsync(liste =>
+        {
+            var index = liste.FindIndex(c => c.Id == compte.Id);
+            if (index < 0)
+                throw new InvalidOperationException("Compte introuvable.");
+            liste[index] = compte;
+            return true;
+        });
 }

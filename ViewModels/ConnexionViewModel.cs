@@ -65,6 +65,5 @@ public partial class ConnexionViewModel : BaseViewModel
     private Task CreerCompteAsync() => _nav.GoToAsync(Routes.Racine(Routes.Inscription));
 
     [RelayCommand]
-    private Task MotDePasseOublieAsync()
-        => _dialog.AlertAsync("Mot de passe oublié", "La réinitialisation sera disponible avec la future API.");
+    private Task MotDePasseOublieAsync() => _nav.GoToAsync(Routes.MotDePasseOublie);
 }

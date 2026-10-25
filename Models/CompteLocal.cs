@@ -18,5 +18,10 @@ public class CompteLocal
     public string Sel { get; set; } = string.Empty;
     public string Hash { get; set; } = string.Empty;
     public int Iterations { get; set; }
+
+    /// <summary>Empreinte du code de récupération (jamais le code lui-même). Vide pour un compte sans code.</summary>
+    public string SelRecuperation { get; set; } = string.Empty;
+    public string HashRecuperation { get; set; } = string.Empty;
+    public int IterationsRecuperation { get; set; }
     public DateTime DateCreation { get; set; }
 }

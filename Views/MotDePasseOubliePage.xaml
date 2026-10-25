@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:VenteJour.Views.Controls"
+             x:Class="VenteJour.Views.MotDePasseOubliePage"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="20,8,20,24" Spacing="14">
+            <controls:BackHeader Titre="Mot de passe oublié" />
+
+            <Label Text="Saisissez votre identifiant et le code de récupération qui vous a été remis à la création du compte, puis choisissez un nouveau mot de passe."
+                   Style="{StaticResource BodyLabel}" FontSize="16" />
+
+            <Border Style="{StaticResource InputBorder}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_person_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="E-mail ou téléphone" Text="{Binding Identifiant}"
+                           Keyboard="Email" Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource InputBorder}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_lock_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="Code de récupération (XXXX-XXXX-XXXX)" Text="{Binding CodeRecuperation}"
+                           Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource InputBorder}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_lock_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="Nouveau mot de passe" Text="{Binding NouveauMotDePasse}"
+                           IsPassword="True" Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource InputBorder}">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_lock_k" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="Confirmation du nouveau mot de passe" Text="{Binding Confirmation}"
+                           IsPassword="True" Style="{StaticResource FieldEntry}" />
+                </Grid>
+            </Border>
+
+            <Label Text="{Binding MessageErreur}" IsVisible="{Binding ADesErreur}"
+                   TextColor="{DynamicResource Danger}" HorizontalTextAlignment="Center" />
+
+            <Button Text="Réinitialiser le mot de passe" ImageSource="ico_check_w" Style="{StaticResource PrimaryButton}"
+                    Command="{Binding ReinitialiserCommand}" IsEnabled="{Binding PasOccupe}" Margin="0,8,0,0" />
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="{DynamicResource BrandGreen}" />
+
+            <Border BackgroundColor="{DynamicResource InfoBg}" StrokeThickness="0" Padding="14,12" Margin="0,8,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                    <Image Source="ico_info_g" WidthRequest="24" HeightRequest="24" VerticalOptions="Start" />
+                    <Label Grid.Column="1" Style="{StaticResource BodyLabel}" FontSize="14"
+                           Text="Vous n'avez plus votre code ? Les comptes sont enregistrés uniquement sur ce téléphone, sans serveur : sans le code, le mot de passe ne peut pas être récupéré et il faut créer un nouveau compte." />
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

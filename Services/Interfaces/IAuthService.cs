@@ -8,6 +8,13 @@ public class AuthentificationException : Exception
     public AuthentificationException(string message) : base(message) { }
 }
 
+/// <summary>Résultat d'une inscription : l'utilisateur connecté et son code de récupération (affiché UNE seule fois).</summary>
+public class ResultatInscription
+{
+    public Utilisateur Utilisateur { get; set; }
+    public string CodeRecuperation { get; set; }
+}
+
 public interface IAuthService
 {
     /// <summary>Utilisateur connecté, ou null.</summary>
@@ -17,7 +24,13 @@ public interface IAuthService
     Task<Utilisateur> ConnexionAsync(string identifiant, string motDePasse, bool memoriser);
 
     /// <summary>Crée le compte (refusé si l'e-mail ou le téléphone existe déjà), ouvre la session et crée le kiosque vide.</summary>
-    Task<Utilisateur> InscriptionAsync(string identifiant, string nomKiosque, string telephone, string motDePasse);
+    Task<ResultatInscription> InscriptionAsync(string identifiant, string nomKiosque, string telephone, string motDePasse);
+
+    /// <summary>
+    /// Mot de passe oublié : vérifie le code de récupération, change le mot de passe et retourne un NOUVEAU code
+    /// (l'ancien n'est plus valable). Lève AuthentificationException si le compte, le code ou le mot de passe est invalide.
+    /// </summary>
+    Task<string> ReinitialiserMotDePasseAsync(string identifiant, string codeRecuperation, string nouveauMotDePasse);
 
     /// <summary>Rouvre la session mémorisée (« Se souvenir de moi »). Null s'il n'y en a pas.</summary>
     Task<Utilisateur> RestaurerSessionAsync();
@@ -47,6 +60,8 @@ public interface ICompteRepository
 
     /// <summary>Ajoute le compte et lui attribue un identifiant unique.</summary>
     Task<CompteLocal> AjouterAsync(CompteLocal compte);
+
+    Task MettreAJourAsync(CompteLocal compte);
 }
 
 public interface IDonneesDemoService

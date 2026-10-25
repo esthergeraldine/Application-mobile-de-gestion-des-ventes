@@ -45,9 +45,15 @@ public partial class InscriptionViewModel : BaseViewModel
         IsBusy = true;
         try
         {
-            await _auth.InscriptionAsync(Identifiant, NomKiosque, Telephone, MotDePasse);
+            var resultat = await _auth.InscriptionAsync(Identifiant, NomKiosque, Telephone, MotDePasse);
             MotDePasse = null;
             Confirmation = null;
+
+            // Le code n'est montré qu'ici, une seule fois : sans lui, un mot de passe oublié ne peut pas être récupéré.
+            await _dialog.AlertAsync("Votre code de récupération",
+                $"Notez ce code et gardez-le en lieu sûr :\n\n{resultat.CodeRecuperation}\n\n" +
+                "Il vous permettra de réinitialiser votre mot de passe si vous l'oubliez. Il ne sera plus jamais affiché.",
+                "J'ai noté mon code");
             await _nav.GoToAsync(Routes.Racine(Routes.Accueil));
         }
         catch (AuthentificationException ex)

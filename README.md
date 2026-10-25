@@ -42,3 +42,25 @@ Pour tester la vente à perte : choisir « Jus d'orange 1L » (achat 900, vente 
 
 Tout ce qui est « simulation » est isolé dans `Services/Fake/` (données en mémoire, rien n'est envoyé à un serveur).
 Pour brancher l'API : remplacer les enregistrements `Fake...Service` de `MauiProgram.cs` par des services HTTP.
+
+
+---
+## Comptes utilisateurs (version finale)
+
+- **Inscription réelle** : e-mail ou téléphone + nom du kiosque + téléphone + mot de passe (6 caractères minimum, confirmation).
+  Les doublons (e-mail ou téléphone) sont refusés.
+- **Connexion réelle** : compte inconnu → « Aucun compte… » ; mauvais mot de passe → « Mot de passe incorrect ».
+  Connexion possible par e-mail (majuscules acceptées) ou par numéro de téléphone.
+- **Mot de passe protégé** : seul un hash PBKDF2-SHA256 (sel aléatoire, 100 000 itérations) est stocké, dans `comptes.json`.
+- **« Se souvenir de moi »** : rouvre directement le compte au lancement suivant ; sinon retour à la connexion.
+- **Données séparées par compte** : une base SQLite par compte (`ventejour-<id>.db3`). Un compte neuf démarre à ZÉRO :
+  aucun produit, aucune vente, aucune donnée de démonstration.
+- **Démonstration à la demande** : Paramètres > « Charger des données de démonstration » (captures d'écran, vidéo).
+- Limite : les comptes sont enregistrés sur le téléphone, sans serveur (pas de partage entre appareils, pas de récupération
+  de mot de passe). Le futur backend remplacera `AuthService` / `JsonCompteRepository` par des appels à l'API.
+
+## Mot de passe oublié (sans serveur)
+- À la création du compte, un **code de récupération** (ex. `K7M2-9QXA-R4TD`) est affiché UNE seule fois. Seule son empreinte est stockée.
+- « Mot de passe oublié ? » : identifiant + code de récupération + nouveau mot de passe. Un **nouveau code** est alors remis (un code ne sert qu'une fois).
+- Après 5 essais incorrects (connexion ou code), blocage d'une minute pour ce compte.
+- Sans le code, il faut créer un nouveau compte : sans serveur (e-mail/SMS), il n'existe pas d'autre moyen sûr de récupérer un compte.
